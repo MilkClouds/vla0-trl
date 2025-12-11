@@ -14,14 +14,14 @@ Start building your own VLA from this minimal codebase!
 | [OpenPI](https://github.com/Physical-Intelligence/openpi) | ~16,900 | 96.9% |
 | [OpenVLA](https://github.com/openvla/openvla) | ~14,800 | 76.5% |
 | [VLA-0](https://github.com/NVlabs/vla0) | ~5,500 | 94.7% |
-| **This repo** | **~1,200** | **89.6%** |
+| **This repo** | **~1,200** | 89.6% |
 
 <!-- | [UniVLA](https://github.com/OpenDriveLab/UniVLA) | ~23,000 | 95.2% | -->
 <!-- | [FLOWER](https://github.com/intuitive-robots/flower_vla_calvin) | ~10,500 | 96.9% | -->
 
 Other repos support multiple environments, hardware drivers, or diverse policies—this one focuses solely on LIBERO training. Not a fair comparison, but if you want to learn VLA internals, this is the simplest starting point.
 
-How is it so short? Thanks to [transformers](https://github.com/huggingface/transformers) for Qwen2-VL, [TRL](https://github.com/huggingface/trl) for SFTTrainer, [LeRobot](https://github.com/huggingface/lerobot) for LeRobotDataset, and [`kernels`](https://github.com/huggingface/kernels) for Flash Attention—we just wire them together with VLA-0's action tokenization. Beyond the smaller codebase, we also gain functional advantages: the original VLA-0 relies on custom DDP with mostly manual implementations, whereas we get Flash Attention 2/3 and WandB logging + gradient accumulation out of the box.
+How is it so short? Thanks to [transformers](https://github.com/huggingface/transformers) for Qwen2-VL, [TRL](https://github.com/huggingface/trl) for SFTTrainer, [LeRobot](https://github.com/huggingface/lerobot) for LeRobotDataset, and [`kernels`](https://github.com/huggingface/kernels) for Flash Attention—we just wire them together with [VLA-0](https://github.com/NVlabs/vla0)'s action tokenization. Beyond the smaller codebase, we also gain functional advantages: the original VLA-0 relies on custom DDP with mostly manual implementations, whereas we get Flash Attention 2/3 and WandB logging + gradient accumulation out of the box.
 
 ## Results
 
