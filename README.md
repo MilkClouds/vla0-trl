@@ -26,9 +26,9 @@ We reproduce VLA-0's training with comparable results.
 | libero_10 | 87.6% | 77.0% | -10.6% |
 | **Average** | **94.7%** | **89.6%** | **-5.1%** |
 
-**Training**: 200k steps with gradient clipping enabled.
+**Training**: vla0 with gradient clipping enabled.
 
-**Eval**: `action_horizon=8`, `ensemble_prediction=8`, 50 episodes per task.
+**Eval**: 200k step checkpoint, `action_horizon=8`, `ensemble_prediction=8`, 50 episodes per task.
 
 **Note**: The exact cause of the performance gap is unclear, but given the comparable results, it should be resolvable by aligning more implementation details with the original. I also tested configuration without gradient clipping but it did not help. (avg success rate 89.05%)
 
