@@ -1,6 +1,6 @@
 # vla0-trl: Minimal VLA-0 Reimplementation with TRL
 
-Unofficial reimplementation of [VLA-0](https://github.com/NVlabs/vla0) using TRL's SFTTrainer.
+Unofficial reimplementation of [VLA-0](https://github.com/NVlabs/vla0) using [TRL](https://github.com/huggingface/trl)'s SFTTrainer.
 
 Start building your own VLA from this minimal codebase!
 
@@ -9,8 +9,9 @@ Start building your own VLA from this minimal codebase!
 | | Original | This repo |
 |--|----------|-----------|
 | Training loop | Custom DDP | TRL SFTTrainer |
-| Flash Attention | Off | On |
-| Lines of code | ~4,600 | ~1,200 |
+| Flash Attention 2/3 | ❌ | ✅ via [`kernels`](https://github.com/huggingface/kernels) |
+| WandB logging, grad accum, etc. | ❌ | ✅ SFTTrainer built-in |
+| Lines of code | ~4,600 | **~1,200** (74% less) |
 
 ## Results
 
@@ -43,7 +44,8 @@ We recommend using [`uv`](https://docs.astral.sh/uv/) for managing dependencies.
 ```bash
 uv venv --python 3.11
 uv pip install -e .
-GIT_LFS_SKIP_SMUDGE=1 uv pip install git+https://github.com/huggingface/lerobot.git@f39652707caed42a7cd5ab36066da5663b9565eb  # LeRobot dependency
+# LeRobot dependency
+GIT_LFS_SKIP_SMUDGE=1 uv pip install git+https://github.com/huggingface/lerobot.git@f39652707caed42a7cd5ab36066da5663b9565eb
 
 # For evaluation
 uv pip install -e ".[eval]"
