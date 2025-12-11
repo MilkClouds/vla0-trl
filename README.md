@@ -21,7 +21,7 @@ Start building your own VLA from this minimal codebase!
 
 Other repos support multiple environments, hardware drivers, or diverse policies—this one focuses solely on LIBERO training. Not a fair comparison, but if you want to learn VLA internals, this is the simplest starting point.
 
-How is it so short? Thanks to [transformers](https://github.com/huggingface/transformers) for Qwen2-VL, [TRL](https://github.com/huggingface/trl) for SFTTrainer, [LeRobot](https://github.com/huggingface/lerobot) for LeRobotDataset, and [`kernels`](https://github.com/huggingface/kernels) for Flash Attention—we just wire them together with [VLA-0](https://github.com/NVlabs/vla0)'s action tokenization. Beyond the smaller codebase, we also gain functional advantages: the original VLA-0 relies on custom DDP with mostly manual implementations, whereas we get Flash Attention 2/3 and WandB logging + gradient accumulation out of the box.
+How is it so short? Thanks to [transformers](https://github.com/huggingface/transformers) for Qwen2-VL, [TRL](https://github.com/huggingface/trl) for SFTTrainer, [LeRobot](https://github.com/huggingface/lerobot) for LeRobotDataset, and [kernels](https://github.com/huggingface/kernels) for Flash Attention—we just wire them together with [VLA-0](https://github.com/NVlabs/vla0)'s action tokenization. Beyond the smaller codebase, we also gain functional advantages: the original VLA-0 relies on custom DDP with mostly manual implementations, whereas we get Flash Attention 2/3 and WandB logging and many other features out of the box.
 
 ## Results
 
