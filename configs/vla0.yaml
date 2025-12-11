@@ -1,0 +1,44 @@
+# VLA-0 Training Configuration
+# Paper: arXiv:2510.13054
+# Usage: python scripts/train.py --config configs/vla0.yaml
+
+# === ModelArguments ===
+model_id: "Qwen/Qwen2.5-VL-3B-Instruct"
+use_flash_attention: true # was false on original
+
+# === DataArguments ===
+repo_id: "physical-intelligence/libero"
+history: 1
+horizon: 8
+img_size: 224
+crop_ratio: 0.875
+tile_images: true
+brightness_aug: 0.2
+contrast_aug: 0.2
+saturation_aug: 0.2
+hue_aug: 0.05
+
+# === VLATrainingArguments ===
+action_mask_aug_pct: 0.4
+
+# === SFTConfig (from TRL) ===
+output_dir: "./runs/vla0_sft"
+# Original uses 24 epochs with no DistributedSampler (each GPU sees full dataset).
+# With DistributedSampler, 24 epochs on 8 GPUs = 24 * 8 = 192 equivalent epochs.
+num_train_epochs: 192
+# Original config uses batch_size=8 per GPU (global=64 with 8 GPUs).
+per_device_train_batch_size: 8
+gradient_accumulation_steps: 1
+# Original scales LR by num_gpus: 5e-6 * 8 = 4e-5
+learning_rate: 4.0e-5
+lr_scheduler_type: "constant"  # original uses LR_SCHED: "none"
+weight_decay: 1.0e-10
+max_grad_norm: 0.0  # original uses clip_grad_norm: 0.0 (disabled)
+warmup_steps: 0
+logging_steps: 10
+save_total_limit: 1000
+save_steps: 10000 # originally 2 epoch
+bf16: true
+dataloader_num_workers: 8
+report_to: ["tensorboard", "wandb"]
+
