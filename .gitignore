@@ -1,6 +1,7 @@
 wandb/
 logs/
 eval_logs/
+runs/
 
 # Python-generated files
 __pycache__/
