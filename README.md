@@ -2,7 +2,9 @@
 
 Unofficial reimplementation of [VLA-0](https://github.com/NVlabs/vla0) using [TRL](https://github.com/huggingface/trl)'s SFTTrainer.
 
-Start building your own VLA from this minimal codebase!
+While common VLA codebases are over 10,000 lines, vla0-trl contains only ~1,200 lines total. Gets ~90% on LIBERO by just fine-tuning Qwen2-VL to predict actions as text. No custom architecture needed.
+
+Good starting point if you want to build your own VLA.
 
 ## Why This Repo?
 
