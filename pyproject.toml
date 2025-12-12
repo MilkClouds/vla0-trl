@@ -52,6 +52,9 @@ allow-direct-references = true
 [tool.hatch.build.targets.wheel]
 packages = ["src/rv_train", "src/rv_eval"]
 
+[tool.ruff]
+line-length = 119
+
 [tool.pytest.ini_options]
 testpaths = ["scripts"]
 python_files = ["test_*.py", "verify_*.py"]

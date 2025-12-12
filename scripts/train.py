@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """VLA-0 Training Script using TRL's SFTTrainer."""
+
 import pickle
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
-import torch
 from trl import SFTConfig, SFTTrainer, TrlParser
 
 from rv_train.dataset import LiberoDataset
@@ -102,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

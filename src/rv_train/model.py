@@ -1,10 +1,10 @@
 """Model loading utilities for VLA-0."""
 
 import pickle
-from typing import Dict, Optional
+from typing import Optional
 
 import torch
-from transformers import AutoConfig, LogitsProcessor, Qwen2_5_VLProcessor
+from transformers import LogitsProcessor, Qwen2_5_VLProcessor
 from transformers.models.qwen2_5_vl.modeling_qwen2_5_vl import Qwen2_5_VLForConditionalGeneration
 
 

@@ -45,6 +45,7 @@ def dataset():
 
 # --- Original implementations (from rv_train/models/qwen/model.py) ---
 
+
 def _original_discretize(action, min_act, max_act):
     """From rv_train/models/qwen/model.py lines 245-247"""
     normalized = (action - min_act) / (max_act - min_act)
@@ -58,7 +59,7 @@ def _original_tile(images):
     dst = torch.zeros((max(heights), sum(widths), 3))
     x = 0
     for t in tensors:
-        dst[:t.shape[0], x:x + t.shape[1], :] = t
+        dst[: t.shape[0], x : x + t.shape[1], :] = t
         x += t.shape[1]
     return dst.numpy().astype(np.uint8)
 
@@ -99,6 +100,7 @@ def _original_collate(processor, messages, images):
 
 # --- Refactored implementations ---
 
+
 def _refactored_discretize(action, min_act, max_act):
     """From refactored/src/rv_train/dataset.py"""
     normalized = (action - min_act) / (max_act - min_act + 1e-8)
@@ -112,14 +114,18 @@ def _refactored_tile(images):
 
 # --- Tests ---
 
+
 class TestActionDiscretization:
     """Verify action discretization produces identical results."""
 
-    @pytest.mark.parametrize("action", [
-        np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5]),
-        np.array([0.1, -0.2, 0.3, 0.0, 0.05, -0.05, 1.0]),
-        np.array([-0.3, 0.5, -0.4, 0.05, -0.05, 0.02, -1.0]),
-    ])
+    @pytest.mark.parametrize(
+        "action",
+        [
+            np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5]),
+            np.array([0.1, -0.2, 0.3, 0.0, 0.05, -0.05, 1.0]),
+            np.array([-0.3, 0.5, -0.4, 0.05, -0.05, 0.02, -1.0]),
+        ],
+    )
     def test_discretization_matches(self, action):
         original = _original_discretize(action, LIBERO_STATS["min"], LIBERO_STATS["max"])
         refactored = _refactored_discretize(action, LIBERO_STATS["min"], LIBERO_STATS["max"])
