@@ -71,12 +71,13 @@ class LiberoDataset(Dataset):
         self.action_key = action_key
         self.state_key = state_key
 
-        # Compute stats
+        # Compute stats (convert to lists for JSON serialization)
         act_stats = self.dataset.meta.stats[self.action_key]
-        del act_stats["mean"]
-        del act_stats["std"]
         self.stats = {
-            "out_ori_act": act_stats,
+            "out_ori_act": {
+                "min": act_stats["min"].tolist() if hasattr(act_stats["min"], "tolist") else act_stats["min"],
+                "max": act_stats["max"].tolist() if hasattr(act_stats["max"], "tolist") else act_stats["max"],
+            },
         }
 
         # System prompt
