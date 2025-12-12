@@ -6,14 +6,13 @@ Usage:
     cd refactored && pip install -e . && pytest scripts/verify_migration.py -v
 """
 
-import pytest
 import numpy as np
+import pytest
 import torch
-
 from transformers import AutoProcessor
-from rv_train.dataset import LiberoDataset
-from rv_train.collator import VLACollator
 
+from rv_train.collator import VLACollator
+from rv_train.dataset import LiberoDataset
 
 # --- Test fixtures ---
 
@@ -74,7 +73,7 @@ def _original_collate(processor, messages, images):
         messages,
         tokenize=False,
         add_generation_prompt=False,
-        add_vision_id=True,  # Original VLA-0 config uses this
+        add_vision_id=False,  # Original VLA-0 config uses this
     )
 
     inputs = processor(
