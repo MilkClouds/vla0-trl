@@ -16,7 +16,7 @@ Good starting point if you want to build your own VLA.
 | [OpenPI](https://github.com/Physical-Intelligence/openpi) | ~16,900 | 96.9% |
 | [OpenVLA](https://github.com/openvla/openvla) | ~14,800 | 76.5% |
 | [VLA-0](https://github.com/NVlabs/vla0) | ~5,500 | 94.7% |
-| **This repo** | **~1,200** | 89.6% |
+| **This repo** | **~1,200** | 92.2% |
 
 <!-- | [UniVLA](https://github.com/OpenDriveLab/UniVLA) | ~23,000 | 95.2% | -->
 <!-- | [FLOWER](https://github.com/intuitive-robots/flower_vla_calvin) | ~10,500 | 96.9% | -->
@@ -33,15 +33,15 @@ We reproduce VLA-0's training with comparable results.
 
 | Task Suite | VLA-0 (paper) | This Repo | Diff |
 |------------|---------------|-----------|------|
-| libero_spatial | 97.0% | 92.8% | -4.2% |
-| libero_object | 97.8% | 94.0% | -3.8% |
-| libero_goal | 96.2% | 94.6% | -1.6% |
-| libero_10 | 87.6% | 77.0% | -10.6% |
-| **Average** | **94.7%** | **89.6%** | **-5.1%** |
+| libero_spatial | 97.0% | 95.2% | -1.8% |
+| libero_object | 97.8% | 96.0% | -1.8% |
+| libero_goal | 96.2% | 92.6% | -3.6% |
+| libero_10 | 87.6% | 84.8% | -2.8% |
+| **Average** | **94.7%** | **92.2%** | **-2.5%** |
 
 **Training**: vla0 with gradient clipping enabled.
 
-**Eval**: 200k step checkpoint, `action_horizon=8`, `ensemble_prediction=8`, 50 episodes per task.
+**Eval**: 80k step checkpoint, `action_horizon=8`, `ensemble_prediction=8`, 50 episodes per task.
 
 **Note**: The exact cause of the performance gap is unclear, but given the comparable results, it should be resolvable by aligning more implementation details with the original. I also tested configuration without gradient clipping but it did not help. (avg success rate 89.05%)
 
