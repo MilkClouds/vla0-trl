@@ -118,7 +118,7 @@ See [`configs/vla0.yaml`](configs/vla0.yaml). Key parameters:
 | `per_device_train_batch_size` | 8 |
 | `horizon` | 8 |
 
-Training 200k steps takes ~45h on 8×H100. Batch eval with [`eval.sbatch`](scripts/eval.sbatch) takes ~4h with 50 episode per task. I expect the computational cost of training and evaluation can be drastically reduced, though the solution remains an open question.
+Training 80k steps takes ~18h on 8×H100. Batch eval with [`eval.sbatch`](scripts/eval.sbatch) takes ~4h with 50 episode per task. I expect the computational cost of training and evaluation can be drastically reduced, though the solution remains an open question.
 
 ## Project Structure
 
