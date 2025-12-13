@@ -25,7 +25,8 @@ action_mask_aug_pct: 0.4
 output_dir: "./runs/vla0_sft"
 # Original uses 24 epochs with no DistributedSampler (each GPU sees full dataset).
 # With DistributedSampler, 24 epochs on 8 GPUs = 24 * 8 = 192 equivalent epochs.
-num_train_epochs: 192
+# However, the author confirmed they stopped training early. 32 epochs is sufficient.
+num_train_epochs: 32
 # Original config uses batch_size=8 per GPU (global=64 with 8 GPUs).
 per_device_train_batch_size: 8
 gradient_accumulation_steps: 1
