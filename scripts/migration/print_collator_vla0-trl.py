@@ -104,12 +104,9 @@ Saved reconstructed image: (224, 448, 3)
 """
 
 
-import pickle
-import time
-import timeit
+import pickle  # noqa: E402
 
-from qwen_vl_utils import process_vision_info
-from transformers import AutoProcessor, AutoTokenizer, Qwen2_5_VLForConditionalGeneration
+from transformers import AutoProcessor  # noqa: E402
 
 processor = AutoProcessor.from_pretrained("Qwen/Qwen2.5-VL-3B-Instruct")
 
