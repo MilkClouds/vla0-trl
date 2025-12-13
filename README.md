@@ -2,7 +2,7 @@
 
 Unofficial reimplementation of [VLA-0](https://github.com/NVlabs/vla0) using [TRL](https://github.com/huggingface/trl)'s SFTTrainer.
 
-While common VLA codebases are over 10,000 lines, vla0-trl contains only ~1,200 lines total. Gets ~90% on LIBERO by just fine-tuning Qwen2-VL to predict actions as text. No custom architecture needed.
+While common VLA codebases are over 10,000 lines, vla0-trl contains only ~1,200 lines total. Gets ~90% on LIBERO by just fine-tuning Qwen2.5-VL to predict actions as text. No custom architecture needed.
 
 Good starting point if you want to build your own VLA.
 
@@ -16,14 +16,14 @@ Good starting point if you want to build your own VLA.
 | [OpenPI](https://github.com/Physical-Intelligence/openpi) | ~16,900 | 96.9% |
 | [OpenVLA](https://github.com/openvla/openvla) | ~14,800 | 76.5% |
 | [VLA-0](https://github.com/NVlabs/vla0) | ~5,500 | 94.7% |
-| **This repo** | **~1,200** | 89.6% |
+| **This repo** | **~1,200** | 92.2% |
 
 <!-- | [UniVLA](https://github.com/OpenDriveLab/UniVLA) | ~23,000 | 95.2% | -->
 <!-- | [FLOWER](https://github.com/intuitive-robots/flower_vla_calvin) | ~10,500 | 96.9% | -->
 
 Other repos support multiple environments, hardware drivers, or diverse policies—this one focuses solely on LIBERO training. Not a fair comparison, but if you want to learn VLA internals, this is the simplest starting point.
 
-How is it so short? Thanks to [transformers](https://github.com/huggingface/transformers) for Qwen2-VL, [TRL](https://github.com/huggingface/trl) for SFTTrainer, [LeRobot](https://github.com/huggingface/lerobot) for LeRobotDataset, and [kernels](https://github.com/huggingface/kernels) for Flash Attention—we just wire them together with [VLA-0](https://github.com/NVlabs/vla0)'s action tokenization. Beyond the smaller codebase, we also gain functional advantages: the original VLA-0 relies on custom DDP with mostly manual implementations, whereas we get Flash Attention 2/3 and WandB logging and many other features out of the box.
+How is it so short? Thanks to [transformers](https://github.com/huggingface/transformers) for Qwen2.5-VL, [TRL](https://github.com/huggingface/trl) for SFTTrainer, [LeRobot](https://github.com/huggingface/lerobot) for LeRobotDataset, and [kernels](https://github.com/huggingface/kernels) for Flash Attention—we just wire them together with [VLA-0](https://github.com/NVlabs/vla0)'s action tokenization. Beyond the smaller codebase, we also gain functional advantages: the original VLA-0 relies on custom DDP with mostly manual implementations, whereas we get Flash Attention 2/3 and WandB logging and many other features out of the box.
 
 ## Results
 
@@ -33,15 +33,15 @@ We reproduce VLA-0's training with comparable results.
 
 | Task Suite | VLA-0 (paper) | This Repo | Diff |
 |------------|---------------|-----------|------|
-| libero_spatial | 97.0% | 92.8% | -4.2% |
-| libero_object | 97.8% | 94.0% | -3.8% |
-| libero_goal | 96.2% | 94.6% | -1.6% |
-| libero_10 | 87.6% | 77.0% | -10.6% |
-| **Average** | **94.7%** | **89.6%** | **-5.1%** |
+| libero_spatial | 97.0% | 95.2% | -1.8% |
+| libero_object | 97.8% | 96.0% | -1.8% |
+| libero_goal | 96.2% | 92.6% | -3.6% |
+| libero_10 | 87.6% | 84.8% | -2.8% |
+| **Average** | **94.7%** | **92.2%** | **-2.5%** |
 
 **Training**: vla0 with gradient clipping enabled.
 
-**Eval**: 200k step checkpoint, `action_horizon=8`, `ensemble_prediction=8`, 50 episodes per task.
+**Eval**: 80k step checkpoint, `action_horizon=8`, `ensemble_prediction=8`, 50 episodes per task.
 
 **Note**: The exact cause of the performance gap is unclear, but given the comparable results, it should be resolvable by aligning more implementation details with the original. I also tested configuration without gradient clipping but it did not help. (avg success rate 89.05%)
 
@@ -114,7 +114,7 @@ See [`configs/vla0.yaml`](configs/vla0.yaml). Key parameters:
 | Parameter | Value |
 |-----------|-------|
 | `learning_rate` | 4e-5 (5e-6 × 8 GPUs) |
-| `num_train_epochs` | 192 |
+| `num_train_epochs` | 32 |
 | `per_device_train_batch_size` | 8 |
 | `horizon` | 8 |
 
@@ -135,7 +135,7 @@ Training 200k steps takes ~45h on 8×H100. Batch eval with [`eval.sbatch`](scrip
 ## Limitations (inherited from VLA-0)
 
 - **LIBERO only** — other environments not ported
-- **Qwen2-VL only** — other backbones not supported
+- **Qwen2.5-VL only** — other backbones not supported
 
 ## Known Issues
 

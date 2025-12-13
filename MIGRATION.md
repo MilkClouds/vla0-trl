@@ -37,7 +37,9 @@ The original does not use `DistributedSampler`. Each GPU sees the full dataset p
 |--|----------|-----------|
 | Sampler | None (shuffle=True) | DistributedSampler |
 | Data per GPU per epoch | 100% | 100% / N GPUs |
-| Epochs to match | 24 | 24 × 8 = **192** |
+| Epochs to match | 24 | 24 × 8 = 192 |
+
+**Note**: The author confirmed they stopped training early and didn't complete all 24 epochs. We use **32 epochs** which is sufficient for convergence.
 
 ### 1.2 Learning Rate
 
@@ -54,7 +56,7 @@ This repo uses 4e-5 directly. Without this, training does not converge.
 | Parameter | Original | This Repo |
 |-----------|----------|-----------|
 | LR | 5e-6 × 8 = 4e-5 | 4e-5 |
-| Epochs | 24 | 192 |
+| Epochs | 24 (early stopped) | 32 |
 | Batch (per GPU) | 8 | 8 |
 | Gradient clip | 0.0 | 0.0 |
 
@@ -153,4 +155,5 @@ Picture 1: <|vision_start|><|image_pad|>...(128 pads)...<|vision_end|>put the wh
 
 ## 5. Known Differences
 
-- **Stats**: Original uses pre-computed; this repo samples at load time
+- **Stats**: Original uses pre-computed; this repo reads from LeRobotDataset metadata
+- **Epochs**: Original claims 24 but was early-stopped; this repo uses 32

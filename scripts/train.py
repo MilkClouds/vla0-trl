@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """VLA-0 Training Script using TRL's SFTTrainer."""
-import pickle
+
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional
 
-import torch
 from trl import SFTConfig, SFTTrainer, TrlParser
 
-from rv_train.dataset import LiberoDataset
 from rv_train.collator import VLACollator
+from rv_train.dataset import LiberoDataset
 from rv_train.model import load_model_for_training, load_processor
 
 
@@ -71,8 +70,8 @@ def main():
 
     # Save stats for inference
     Path(training_args.output_dir).mkdir(parents=True, exist_ok=True)
-    with open(f"{training_args.output_dir}/dataset_stats.pkl", "wb") as f:
-        pickle.dump(dataset.stats, f)
+    with open(f"{training_args.output_dir}/dataset_stats.json", "w") as f:
+        json.dump(dataset.stats, f, indent=2)
 
     collator = VLACollator(
         processor=processor,
@@ -102,4 +101,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

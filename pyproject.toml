@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "vla0-refactored"
+name = "vla0-trl"
 version = "0.0.1"
-description = "VLA-0: Building State-of-the-Art VLAs with Zero Modification (Refactored)"
+description = "Unofficial reimplementation of VLA-0 using TRL's SFTTrainer."
 readme = "README.md"
 requires-python = ">=3.10"
 license = "Apache-2.0"
@@ -51,6 +51,9 @@ allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/rv_train", "src/rv_eval"]
+
+[tool.ruff]
+line-length = 119
 
 [tool.pytest.ini_options]
 testpaths = ["scripts"]

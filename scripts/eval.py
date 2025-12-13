@@ -15,7 +15,7 @@ def parse_args():
     # Model
     parser.add_argument("--model_path", type=str, required=True, help="Path to trained model checkpoint")
     parser.add_argument(
-        "--stats_path", type=str, default=None, help="Path to dataset_stats.pkl (auto-detected if not specified)"
+        "--stats_path", type=str, default=None, help="Path to dataset_stats.json (auto-detected if not specified)"
     )
 
     # Evaluation settings
@@ -87,17 +87,17 @@ def main():
     stats_path = args.stats_path
     if stats_path is None:
         model_dir = Path(args.model_path).parent
-        candidate = model_dir / "dataset_stats.pkl"
+        candidate = model_dir / "dataset_stats.json"
         if candidate.exists():
             stats_path = str(candidate)
         else:
             # Try parent directory
-            candidate = model_dir.parent / "dataset_stats.pkl"
+            candidate = model_dir.parent / "dataset_stats.json"
             if candidate.exists():
                 stats_path = str(candidate)
 
     if stats_path is None:
-        raise ValueError("Could not find dataset_stats.pkl. Specify --stats_path")
+        raise ValueError("Could not find dataset_stats.json. Specify --stats_path")
 
     # Build log directory
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")

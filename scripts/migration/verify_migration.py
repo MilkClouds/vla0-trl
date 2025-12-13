@@ -6,14 +6,13 @@ Usage:
     cd refactored && pip install -e . && pytest scripts/verify_migration.py -v
 """
 
-import pytest
 import numpy as np
+import pytest
 import torch
-
 from transformers import AutoProcessor
-from rv_train.dataset import LiberoDataset
-from rv_train.collator import VLACollator
 
+from rv_train.collator import VLACollator
+from rv_train.dataset import LiberoDataset
 
 # --- Test fixtures ---
 
@@ -45,6 +44,7 @@ def dataset():
 
 # --- Original implementations (from rv_train/models/qwen/model.py) ---
 
+
 def _original_discretize(action, min_act, max_act):
     """From rv_train/models/qwen/model.py lines 245-247"""
     normalized = (action - min_act) / (max_act - min_act)
@@ -58,7 +58,7 @@ def _original_tile(images):
     dst = torch.zeros((max(heights), sum(widths), 3))
     x = 0
     for t in tensors:
-        dst[:t.shape[0], x:x + t.shape[1], :] = t
+        dst[: t.shape[0], x : x + t.shape[1], :] = t
         x += t.shape[1]
     return dst.numpy().astype(np.uint8)
 
@@ -68,12 +68,12 @@ def _original_collate(processor, messages, images):
     Replicates rv_train/models/qwen/model.py get_qwen_inputs + label masking.
     Returns (input_ids, labels, attention_mask) for comparison.
     """
-    # Apply chat template with add_vision_id=True (from configs/vla0.yaml line 26)
+    # Apply chat template with add_vision_id=False. Original VLA-0 config intend add_vision_id=True but on transformers v4.51.3 which original VLA-0 use, it has no effect
     text = processor.apply_chat_template(
         messages,
         tokenize=False,
         add_generation_prompt=False,
-        add_vision_id=True,  # Original VLA-0 config uses this
+        add_vision_id=False,
     )
 
     inputs = processor(
@@ -99,6 +99,7 @@ def _original_collate(processor, messages, images):
 
 # --- Refactored implementations ---
 
+
 def _refactored_discretize(action, min_act, max_act):
     """From refactored/src/rv_train/dataset.py"""
     normalized = (action - min_act) / (max_act - min_act + 1e-8)
@@ -112,14 +113,18 @@ def _refactored_tile(images):
 
 # --- Tests ---
 
+
 class TestActionDiscretization:
     """Verify action discretization produces identical results."""
 
-    @pytest.mark.parametrize("action", [
-        np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5]),
-        np.array([0.1, -0.2, 0.3, 0.0, 0.05, -0.05, 1.0]),
-        np.array([-0.3, 0.5, -0.4, 0.05, -0.05, 0.02, -1.0]),
-    ])
+    @pytest.mark.parametrize(
+        "action",
+        [
+            np.array([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.5]),
+            np.array([0.1, -0.2, 0.3, 0.0, 0.05, -0.05, 1.0]),
+            np.array([-0.3, 0.5, -0.4, 0.05, -0.05, 0.02, -1.0]),
+        ],
+    )
     def test_discretization_matches(self, action):
         original = _original_discretize(action, LIBERO_STATS["min"], LIBERO_STATS["max"])
         refactored = _refactored_discretize(action, LIBERO_STATS["min"], LIBERO_STATS["max"])
