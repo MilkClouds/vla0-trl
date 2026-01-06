@@ -27,7 +27,7 @@ dependencies = [
     "trl>=0.8.0",
     "qwen-vl-utils>=0.0.2",
     # "lerobot @ git+https://github.com/huggingface/lerobot.git@f39652707caed42a7cd5ab36066da5663b9565eb", # commented out this because of too complex dependencies. Install manually afterward!
-    "datasets>=2.19.0,<4.0.0",  # lerobot compatibility
+    "datasets>=2.19.0,<5.0.0",  # lerobot compatibility
     "einops>=0.7.0",
     "Pillow>=10.0.0",
     "kernels",
@@ -36,8 +36,8 @@ dependencies = [
 
 [project.optional-dependencies]
 eval = [
-    "mujoco==3.3.2", # IMPORTANT: rendering bug after 3.3.2 version. https://github.com/Lifelong-Robot-Learning/LIBERO/issues/88
-    "numpy==1.26.4",
+    "mujoco==3.4.0", # IMPORTANT: rendering bug after 3.3.2 version. https://github.com/Lifelong-Robot-Learning/LIBERO/issues/88
+    "numpy==2.4.0",
     "libero @ git+https://github.com/MilkClouds/LIBERO.git@minor-fix",  # fork with relaxed deps & modern packaging
     "robosuite",
 ]
