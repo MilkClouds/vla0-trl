@@ -159,7 +159,8 @@ If you use this code, please cite both this repository and the original VLA-0 pa
   title = {vla0-trl: Minimal VLA-0 Reimplementation with TRL},
   year = {2025},
   publisher = {GitHub},
-  url = {https://github.com/MilkClouds/vla0-trl}
+  url = {https://github.com/MilkClouds/vla0-trl},
+  doi = {10.5281/ZENODO.18712424}
 }
 
 @article{goyal2025vla0,
